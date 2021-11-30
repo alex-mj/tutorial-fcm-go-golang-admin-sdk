@@ -56,6 +56,10 @@ func main() {
 	// registration token.
 	response, err := client.Send(ctx, message)
 	if err != nil {
+		if messaging.IsUnregistered(err) {
+			//UNREGISTERED	(error code HTTP = 404) Requested entity was not found.
+			logger.L.Info("registration token became invalid")
+		}
 		log.Fatalln(err)
 	}
 	// Response is a message ID string.
